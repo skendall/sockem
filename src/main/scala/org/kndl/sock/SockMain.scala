@@ -6,6 +6,7 @@ import java.net.InetSocketAddress
 import net.fwbrasil.zoot.finagle.FinagleServer
 import net.fwbrasil.zoot.core.Server
 import net.fwbrasil.zoot.core.mapper.JacksonStringMapper
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object SockMain extends App {
 
@@ -18,7 +19,7 @@ object SockMain extends App {
       ServerBuilder()
         .codec(Http())
         .bindTo(new InetSocketAddress(port))
-        .name("CounterServer")
+        .name("SockServer")
 
     new FinagleServer(Server[SockAPI](new SockService), serverBuilder.build)
   }
