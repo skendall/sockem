@@ -1,6 +1,6 @@
 package org.kndl.sock.dao
 
-import org.kndl.sock.model.Sock
+import org.kndl.sock.model.{SockLink, Sock}
 import java.util.concurrent.atomic.AtomicInteger
 
 trait DAO {
@@ -8,14 +8,16 @@ trait DAO {
   def getByName(name: String): Option[Sock]
   def get(): Map[Int,Sock]
   def create(name: String): Sock
+  def link(aId: Int, bId: Int): SockLink
 }
 
 object SockDAO extends DAO {
 
   val id: AtomicInteger = new AtomicInteger()
 
-  val socks: Map[Int,Sock] = Map()
-  val socksByName: Map[String,Sock] = Map()
+  var socks: Map[Int,Sock] = Map()
+  var socksByName: Map[String,Sock] = Map()
+  var links: Seq[Sock] = Seq()
 
   def getById(id: Int): Option[Sock] = {
     socks.get(id)
@@ -31,9 +33,21 @@ object SockDAO extends DAO {
 
   def create(name: String): Sock = {
     val s = new Sock(id.getAndIncrement(),name)
-    socks ++ Map(s.id -> s)
-    socksByName ++ Map(s.name -> s)
+    socks ++= Map(s.id -> s)
+    socksByName ++= Map(s.name -> s)
+    println("Size: " + socks.size)
     s
   }
 
+  def link(aId: Int, bId: Int): Option[SockLink] = {
+    val a = socks.get(aId)
+    val b = socks.get(bId)
+    if(a.isDefined && b.isDefined) {
+      val link = new SockLink(a.get,b.get)
+      links ++= Seq(link)
+      Option(link)
+    } else {
+      Option(null)
+    }
+  }
 }
