@@ -1,4 +1,4 @@
 package org.kndl.sock.model
 
-class Sock(val id: Int, val name: String)
+class Sock(val sockId: Int, val name: String)
 

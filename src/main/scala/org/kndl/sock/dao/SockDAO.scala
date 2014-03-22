@@ -2,6 +2,8 @@ package org.kndl.sock.dao
 
 import org.kndl.sock.model.{SockLink, Sock}
 import java.util.concurrent.atomic.AtomicInteger
+import st.sparse.persistentmap.PersistentMap
+import scala.slick.session.Database
 
 trait DAO {
   def getById(id: Int): Option[Sock]
@@ -14,7 +16,7 @@ trait DAO {
 
 object SockDAO extends DAO {
 
-  val id: AtomicInteger = new AtomicInteger()
+  val id: AtomicInteger = new AtomicInteger(1)
 
   var socks: Map[Int,Sock] = Map()
   var socksByName: Map[String,Sock] = Map()
@@ -34,7 +36,7 @@ object SockDAO extends DAO {
 
   def create(name: String): Sock = {
     val s = new Sock(id.getAndIncrement(),name)
-    socks ++= Map(s.id -> s)
+    socks ++= Map(s.sockId -> s)
     socksByName ++= Map(s.name -> s)
     s
   }
@@ -43,7 +45,7 @@ object SockDAO extends DAO {
     val a = socks.get(aId)
     val b = socks.get(bId)
     if(a.isDefined && b.isDefined) {
-      val link = new SockLink(a.get,b.get)
+      val link = new SockLink(id.getAndIncrement(),a.get,b.get)
       links ++= Seq(link)
       Option(link)
     } else {
@@ -52,6 +54,6 @@ object SockDAO extends DAO {
   }
 
   def getLinks(id: Int): Seq[SockLink] = {
-    links.filter( l => l.a.id == id || l.b.id == id)
+    links.filter( l => l.a.sockId == id || l.b.sockId == id)
   }
 }

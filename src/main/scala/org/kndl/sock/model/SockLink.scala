@@ -1,3 +1,3 @@
 package org.kndl.sock.model
 
-class SockLink(val a: Sock, val b: Sock)
+class SockLink(val linkId: Int, val a: Sock, val b: Sock)
