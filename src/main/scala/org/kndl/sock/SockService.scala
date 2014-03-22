@@ -2,7 +2,7 @@ package org.kndl.sock
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import org.kndl.sock.model.Sock
+import org.kndl.sock.model.{SockLink, Sock}
 import org.kndl.sock.dao.SockDAO
 
 class SockService extends SockAPI {
@@ -15,4 +15,7 @@ class SockService extends SockAPI {
 
   def get(): Future[Map[Int,Sock]] = Future.successful(SockDAO.get())
 
+  def link(idA: Int, idB: Int): Future[Option[SockLink]] = Future.successful(SockDAO.link(idA,idB))
+
+  def getLinks(id: Int): Future[Seq[SockLink]] = Future.successful(SockDAO.getLinks(id))
 }

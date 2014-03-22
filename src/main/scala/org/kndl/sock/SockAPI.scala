@@ -3,7 +3,7 @@ package org.kndl.sock
 import net.fwbrasil.zoot.core.Api
 import net.fwbrasil.zoot.core.request.RequestMethod
 import scala.concurrent.Future
-import org.kndl.sock.model.Sock
+import org.kndl.sock.model.{SockLink, Sock}
 
 trait SockAPI extends Api {
 
@@ -29,4 +29,15 @@ trait SockAPI extends Api {
     )
     def get(): Future[Map[Int,Sock]]
 
+    @endpoint(
+      method = RequestMethod.GET,
+      path = "/link/:idA/:idB"
+    )
+    def link(idA: Int, idB: Int): Future[Option[SockLink]]
+
+    @endpoint(
+      method = RequestMethod.GET,
+      path = "/links/:id"
+    )
+    def getLinks(id: Int): Future[Seq[SockLink]]
 }

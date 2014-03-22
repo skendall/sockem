@@ -8,7 +8,8 @@ trait DAO {
   def getByName(name: String): Option[Sock]
   def get(): Map[Int,Sock]
   def create(name: String): Sock
-  def link(aId: Int, bId: Int): SockLink
+  def link(aId: Int, bId: Int): Option[SockLink]
+  def getLinks(id: Int): Seq[SockLink]
 }
 
 object SockDAO extends DAO {
@@ -17,7 +18,7 @@ object SockDAO extends DAO {
 
   var socks: Map[Int,Sock] = Map()
   var socksByName: Map[String,Sock] = Map()
-  var links: Seq[Sock] = Seq()
+  var links: Seq[SockLink] = Seq()
 
   def getById(id: Int): Option[Sock] = {
     socks.get(id)
@@ -35,7 +36,6 @@ object SockDAO extends DAO {
     val s = new Sock(id.getAndIncrement(),name)
     socks ++= Map(s.id -> s)
     socksByName ++= Map(s.name -> s)
-    println("Size: " + socks.size)
     s
   }
 
@@ -49,5 +49,9 @@ object SockDAO extends DAO {
     } else {
       Option(null)
     }
+  }
+
+  def getLinks(id: Int): Seq[SockLink] = {
+    links.filter( l => l.a.id == id || l.b.id == id)
   }
 }
