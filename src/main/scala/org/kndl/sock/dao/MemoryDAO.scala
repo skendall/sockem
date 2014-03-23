@@ -5,16 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import st.sparse.persistentmap.PersistentMap
 import scala.slick.session.Database
 
-trait DAO {
-  def getById(id: Int): Option[Sock]
-  def getByName(name: String): Option[Sock]
-  def get(): Map[Int,Sock]
-  def create(name: String): Sock
-  def link(aId: Int, bId: Int): Option[SockLink]
-  def getLinks(id: Int): Seq[SockLink]
-}
-
-object SockDAO extends DAO {
+object MemoryDAO extends DAO {
 
   val id: AtomicInteger = new AtomicInteger(1)
 
