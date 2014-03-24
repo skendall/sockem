@@ -2,47 +2,22 @@ package org.kndl.sock.dao
 
 import org.kndl.sock.model.{SockLink, Sock}
 import java.util.concurrent.atomic.AtomicInteger
+import akka.actor.Actor
 
-object MemoryDAO extends DAO {
+object MemoryDAO extends Actor with DAO {
 
-  val id: AtomicInteger = new AtomicInteger(1)
+  def getById(id: Int): Option[Sock] = ???
 
-  var socks: Map[Int,Sock] = Map()
-  var socksByName: Map[String,Sock] = Map()
-  var links: Seq[SockLink] = Seq()
+  def getByName(name: String): Option[Sock] = ???
 
-  def getById(id: Int): Option[Sock] = {
-    socks.get(id)
-  }
+  def get(): Map[Int, Sock] = ???
 
-  def getByName(name: String): Option[Sock] = {
-    socksByName.get(name)
-  }
+  def create(name: String): Sock = ???
 
-  def get(): Map[Int,Sock] = {
-    socks
-  }
+  def link(aId: Int, bId: Int): Option[SockLink] = ???
 
-  def create(name: String): Sock = {
-    val s = new Sock(id.getAndIncrement(),name)
-    socks ++= Map(s.sockId -> s)
-    socksByName ++= Map(s.name -> s)
-    s
-  }
+  def getLinks(id: Int): Seq[SockLink] = ???
 
-  def link(aId: Int, bId: Int): Option[SockLink] = {
-    val a = socks.get(aId)
-    val b = socks.get(bId)
-    if(a.isDefined && b.isDefined) {
-      val link = new SockLink(id.getAndIncrement(),a.get,b.get)
-      links ++= Seq(link)
-      Option(link)
-    } else {
-      Option(null)
-    }
-  }
+  def receive: Actor.Receive = ???
 
-  def getLinks(id: Int): Seq[SockLink] = {
-    links.filter( l => l.a.sockId == id || l.b.sockId == id)
-  }
 }
