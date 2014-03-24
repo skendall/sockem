@@ -3,6 +3,7 @@ package org.kndl.sock.dao
 import org.kndl.sock.model.{Sock, SockLink}
 
 object H2DAO extends DAO {
+
   def getById(id: Int): Option[Sock] = ???
 
   def getByName(name: String): Option[Sock] = ???

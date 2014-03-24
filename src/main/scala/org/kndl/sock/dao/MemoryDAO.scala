@@ -2,8 +2,6 @@ package org.kndl.sock.dao
 
 import org.kndl.sock.model.{SockLink, Sock}
 import java.util.concurrent.atomic.AtomicInteger
-import st.sparse.persistentmap.PersistentMap
-import scala.slick.session.Database
 
 object MemoryDAO extends DAO {
 
