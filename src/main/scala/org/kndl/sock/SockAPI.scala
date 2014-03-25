@@ -3,7 +3,6 @@ package org.kndl.sock
 import net.fwbrasil.zoot.core.Api
 import net.fwbrasil.zoot.core.request.RequestMethod
 import scala.concurrent.Future
-import org.kndl.sock.model.{SockLink, Sock}
 
 trait SockAPI extends Api {
 
