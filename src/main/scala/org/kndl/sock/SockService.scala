@@ -1,21 +1,25 @@
 package org.kndl.sock
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import org.kndl.sock.model.{SockLink, Sock}
-import org.kndl.sock.dao.MemoryDAO
+
 
 class SockService extends SockAPI {
 
-  def getById(id: Int): Future[Option[Sock]] = Future.successful(MemoryDAO.getById(id))
+  def create(name: String): Future[V] = ???
 
-  def getByName(name: String): Future[Option[Sock]] = Future.successful(MemoryDAO.getByName(name))
+  def getById(id: Long): Future[Option[V]] = ???
 
-  def create(name: String): Future[Sock] = Future.successful(MemoryDAO.create(name))
+  def getByName(name: String): Future[Option[V]] = ???
 
-  def get(): Future[Map[Int,Sock]] = Future.successful(MemoryDAO.get())
+  def get(): Future[Map[Long, V]] = ???
 
-  def link(idA: Int, idB: Int): Future[Option[SockLink]] = Future.successful(MemoryDAO.link(idA,idB))
+  def link(idA: Long, idB: Long): Future[Option[E]] = ???
 
-  def getLinks(id: Int): Future[Seq[SockLink]] = Future.successful(MemoryDAO.getLinks(id))
+  def getLinks(id: Long): Future[Seq[E]] = ???
+
+  def createGraph(name: String): Future[G] = ???
+
+  def addEdge(id: Long, eid: Long): Unit = ???
+
+  def findShortestPath(gid: Long, vA: Long, vB: Long): Unit = ???
 }

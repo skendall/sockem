@@ -9,35 +9,54 @@ trait SockAPI extends Api {
 
     @endpoint(
       method = RequestMethod.POST,
-      path = "/create/:name"
+      path = "/v/:name"
     )
-    def create(name: String): Future[Sock]
+    def create(name: String): Future[V]
 
     @endpoint(
       method = RequestMethod.GET,
-      path = "/get/:id")
-    def getById(id: Int): Future[Option[Sock]]
+      path = "/v/:id")
+    def getById(id: Long): Future[Option[V]]
 
     @endpoint(
       method = RequestMethod.GET,
-      path = "/getByName/:name")
-    def getByName(name: String): Future[Option[Sock]]
+      path = "/v/:name")
+    def getByName(name: String): Future[Option[V]]
 
     @endpoint(
       method = RequestMethod.GET,
-      path = "/get"
+      path = "/v"
     )
-    def get(): Future[Map[Int,Sock]]
+    def get(): Future[Map[Long,V]]
+
+    @endpoint(
+      method = RequestMethod.POST,
+      path = "/e/:idA/:idB"
+    )
+    def link(idA: Long, idB: Long): Future[Option[E]]
 
     @endpoint(
       method = RequestMethod.GET,
-      path = "/link/:idA/:idB"
+      path = "/e/:id"
     )
-    def link(idA: Int, idB: Int): Future[Option[SockLink]]
+    def getLinks(id: Long): Future[Seq[E]]
+
+    @endpoint(
+      method = RequestMethod.POST,
+      path = "/g/:name"
+    )
+    def createGraph(name: String): Future[G]
+
+    @endpoint(
+      method = RequestMethod.POST,
+      path = "/g/:gid/e/:eid"
+    )
+    def addEdge(id: Long, eid: Long)
 
     @endpoint(
       method = RequestMethod.GET,
-      path = "/links/:id"
+      path = "/g/:gid/v/:vA/v/:vB"
     )
-    def getLinks(id: Int): Future[Seq[SockLink]]
+    def findShortestPath(gid: Long, vA: Long, vB: Long)
+
 }
