@@ -1,6 +1,7 @@
 package org.kndl.sock
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 
 class SockService extends SockAPI {
@@ -17,9 +18,21 @@ class SockService extends SockAPI {
 
   def getLinks(id: Long): Future[Seq[E]] = ???
 
-  def createGraph(name: String): Future[G] = ???
+  def createGraph(name: String): Future[G] = {
+    val g = new G(1,"test",Seq())
+    GraphStore.saveGraph(g)
+    Future(g)
+  }
 
-  def addEdge(id: Long, eid: Long): Unit = ???
+  def addEdge(id: Long, eid: Long): Future[G] = ???
 
-  def findShortestPath(gid: Long, vA: Long, vB: Long): Unit = ???
+  def findShortestPath(gid: Long, vA: Long, vB: Long): Future[G] = ???
+
+  def getGraph(name: String): Future[G] = {
+    val g = GraphStore.graph(name)
+    if(g.isDefined)
+      Future(g.get)
+    else
+      Future(null)
+  }
 }

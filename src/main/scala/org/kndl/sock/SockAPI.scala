@@ -47,15 +47,21 @@ trait SockAPI extends Api {
     def createGraph(name: String): Future[G]
 
     @endpoint(
+      method = RequestMethod.GET,
+      path = "/g/:name"
+    )
+    def getGraph(name: String): Future[G]
+
+    @endpoint(
       method = RequestMethod.POST,
       path = "/g/:gid/e/:eid"
     )
-    def addEdge(id: Long, eid: Long)
+    def addEdge(id: Long, eid: Long): Future[G]
 
     @endpoint(
       method = RequestMethod.GET,
       path = "/g/:gid/v/:vA/v/:vB"
     )
-    def findShortestPath(gid: Long, vA: Long, vB: Long)
+    def findShortestPath(gid: Long, vA: Long, vB: Long): Future[G]
 
 }

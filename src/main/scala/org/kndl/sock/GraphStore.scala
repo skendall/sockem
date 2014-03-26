@@ -1,14 +1,40 @@
 package org.kndl.sock
 
-import java.io.{File, FileOutputStream}
+import java.io._
 import scala.pickling._
-import scala.pickling.binary._
-import binary._
+import json._
+import scala.io.Source
 
 object GraphStore {
-  def saveGraph(graph: G) = {
-    val str = new StringOutput()
-    graph.pickleTo(str)
-    println(str.result())
+
+  val dataDir = new File("data")
+  if(!dataDir.exists()) dataDir.mkdir()
+
+  def saveGraph(graph: G):G = {
+    writeGraph(graph)
+    graph
+  }
+
+  def graph(name: String):Option[G] = {
+    readGraph(name)
+  }
+
+  private def readGraph(name: String): Option[G] = {
+    val f = new File("data" + File.separator + name + ".g")
+    if (f.exists) {
+      var str = ""
+      for (s <- Source.fromFile("data" + File.separator + name + ".g").getLines())
+        str ++= s
+      Option(str.unpickle[G])
+    } else {
+      Option(null)
+    }
+  }
+
+  private def writeGraph(graph: G) {
+    val pckl = graph.pickle
+    val out = new PrintWriter(new File("data" + File.separator + graph.name+".g"))
+    out.print(pckl.value)
+    out.close()
   }
 }
