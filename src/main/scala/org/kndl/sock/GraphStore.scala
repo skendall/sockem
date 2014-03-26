@@ -30,10 +30,6 @@ object GraphStore {
     vertex
   }
 
-  def vertex(name: String):Option[V] = {
-    readVertex(name)
-  }
-
   //TODO: refactor this to use a single generic read/write object
 
   private def readVertex(name: String): Option[V] = {

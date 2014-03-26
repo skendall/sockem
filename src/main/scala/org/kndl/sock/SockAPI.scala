@@ -8,37 +8,19 @@ trait SockAPI extends Api {
 
     @endpoint(
       method = RequestMethod.POST,
-      path = "/v/:name"
+      path = "/g/:gname/v/:vname"
     )
-    def create(name: String): Future[V]
 
     @endpoint(
       method = RequestMethod.GET,
-      path = "/v/:id")
-    def getById(id: String): Future[Option[V]]
-
-    @endpoint(
-      method = RequestMethod.GET,
-      path = "/v/:name")
+      path = "/g/:gname/v/:vname")
     def getByName(name: String): Future[Option[V]]
 
     @endpoint(
       method = RequestMethod.GET,
-      path = "/v"
+      path = "/g/:name/v"
     )
     def get(): Future[Map[Long,V]]
-
-    @endpoint(
-      method = RequestMethod.POST,
-      path = "/e/:idA/:idB"
-    )
-    def link(idA: String, idB: String): Future[Option[E]]
-
-    @endpoint(
-      method = RequestMethod.GET,
-      path = "/e/:id"
-    )
-    def getLinks(id: String): Future[Seq[E]]
 
     @endpoint(
       method = RequestMethod.POST,
