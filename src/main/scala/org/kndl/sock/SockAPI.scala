@@ -6,50 +6,63 @@ import scala.concurrent.Future
 
 trait SockAPI extends Api {
 
-    @endpoint(
-      method = RequestMethod.POST,
-      path = "/g/:gname/v/:vname"
-    )
+  // Graph methods
 
-    @endpoint(
-      method = RequestMethod.GET,
-      path = "/g/:gname/v/:vname")
-    def getByName(name: String): Future[Option[V]]
+  @endpoint(
+    method = RequestMethod.POST,
+    path = "/g/:name"
+  )
+  def createGraph(name: String): Future[G]
 
-    @endpoint(
-      method = RequestMethod.GET,
-      path = "/g/:name/v"
-    )
-    def get(): Future[Map[Long,V]]
+  @endpoint(
+    method = RequestMethod.GET,
+    path = "/g/:name"
+  )
+  def getGraph(name: String): Future[G]
 
-    @endpoint(
-      method = RequestMethod.POST,
-      path = "/g/:name"
-    )
-    def createGraph(name: String): Future[G]
+  @endpoint(
+    method = RequestMethod.GET,
+    path = "/g"
+  )
+  def getAllGraphs(): Future[Seq[String]]
 
-    @endpoint(
-      method = RequestMethod.GET,
-      path = "/g/:name"
-    )
-    def getGraph(name: String): Future[G]
+  // Vertex methods
 
-    @endpoint(
-      method = RequestMethod.GET,
-      path = "/g"
-    )
-    def getAllGraphs(): Future[Seq[String]]
+  @endpoint(
+    method = RequestMethod.POST,
+    path = "/g/:gname/v/:vname"
+  )
+  def createVertex(gname: String, vname: String): Future[Option[V]]
 
-    @endpoint(
-      method = RequestMethod.POST,
-      path = "/g/:gid/e/:eid"
-    )
-    def addEdge(id: String, eid: String): Future[G]
+  @endpoint(
+    method = RequestMethod.GET,
+    path = "/g/:gname/v/:vname")
+  def getVertex(gname: String, vname: String): Future[Option[V]]
 
-    @endpoint(
-      method = RequestMethod.GET,
-      path = "/g/:gid/v/:vA/v/:vB"
-    )
-    def findShortestPath(gid: String, vA: String, vB: String): Future[G]
+  @endpoint(
+    method = RequestMethod.GET,
+    path = "/g/:name/v"
+  )
+  def getVertices(gname: String): Future[Map[Long, V]]
+
+  // Edge methods
+
+  @endpoint(
+    method = RequestMethod.GET,
+    path = "/g/:gname/v/:vname/e"
+  )
+  def getEdges(gname: String, vname: String)
+
+  @endpoint(
+    method = RequestMethod.POST,
+    path = "/g/:gname/e/:vname1/:vname2/:weight"
+  )
+  def addEdge(gname: String, vname1: String, vname2: String, weight: Double): Future[G]
+
+  @endpoint(
+    method = RequestMethod.GET,
+    path = "/g/:gid/v/:vname1/v/:vname2"
+  )
+  def findShortestPath(gid: String, vA: String, vB: String): Future[G]
 
 }

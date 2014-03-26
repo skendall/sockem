@@ -3,8 +3,8 @@ package org.kndl.sock
 
 object GraphFactory {
 
-  def createGraph(name: String, edges: Seq[E]): G = {
-    new G(name, edges)
+  def createGraph(name: String, vertices: Seq[V], edges: Seq[E]): G = {
+    new G(name, vertices, edges)
   }
 
   def createVertex(name: String): V = {
