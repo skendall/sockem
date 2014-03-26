@@ -19,11 +19,49 @@ object GraphStore {
     readGraph(name)
   }
 
-  private def readGraph(name: String): Option[G] = {
-    val f = new File("data" + File.separator + name + ".g")
+  def graphs():Seq[String] = {
+    dataDir.listFiles
+      .filter(_.getName.endsWith(".g"))
+      .map(f => f.getName.substring(0,f.getName.length-2))
+  }
+
+  def saveVertex(vertex: V):V = {
+    writeVertex(vertex)
+    vertex
+  }
+
+  def vertex(name: String):Option[V] = {
+    readVertex(name)
+  }
+
+  //TODO: refactor this to use a single generic read/write object
+
+  private def readVertex(name: String): Option[V] = {
+    val fName = "data" + File.separator + name + ".v"
+    val f = new File(fName)
     if (f.exists) {
       var str = ""
-      for (s <- Source.fromFile("data" + File.separator + name + ".g").getLines())
+      for (s <- Source.fromFile(fName).getLines())
+        str ++= s
+      Option(str.unpickle[V])
+    } else {
+      Option(null)
+    }
+  }
+
+  private def writeVertex(vertex: V) {
+    val pckl = vertex.pickle
+    val out = new PrintWriter(new File("data" + File.separator + vertex.name + ".v"))
+    out.print(pckl.value)
+    out.close()
+  }
+
+  private def readGraph(name: String): Option[G] = {
+    val fName = "data" + File.separator + name + ".g"
+    val f = new File(fName)
+    if (f.exists) {
+      var str = ""
+      for (s <- Source.fromFile(fName).getLines())
         str ++= s
       Option(str.unpickle[G])
     } else {
@@ -33,7 +71,7 @@ object GraphStore {
 
   private def writeGraph(graph: G) {
     val pckl = graph.pickle
-    val out = new PrintWriter(new File("data" + File.separator + graph.name+".g"))
+    val out = new PrintWriter(new File("data" + File.separator + graph.name + ".g"))
     out.print(pckl.value)
     out.close()
   }

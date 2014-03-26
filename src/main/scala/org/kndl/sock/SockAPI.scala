@@ -3,6 +3,7 @@ package org.kndl.sock
 import net.fwbrasil.zoot.core.Api
 import net.fwbrasil.zoot.core.request.RequestMethod
 import scala.concurrent.Future
+import java.util.UUID
 
 trait SockAPI extends Api {
 
@@ -15,7 +16,7 @@ trait SockAPI extends Api {
     @endpoint(
       method = RequestMethod.GET,
       path = "/v/:id")
-    def getById(id: Long): Future[Option[V]]
+    def getById(id: UUID): Future[Option[V]]
 
     @endpoint(
       method = RequestMethod.GET,
@@ -32,13 +33,13 @@ trait SockAPI extends Api {
       method = RequestMethod.POST,
       path = "/e/:idA/:idB"
     )
-    def link(idA: Long, idB: Long): Future[Option[E]]
+    def link(idA: UUID, idB: UUID): Future[Option[E]]
 
     @endpoint(
       method = RequestMethod.GET,
       path = "/e/:id"
     )
-    def getLinks(id: Long): Future[Seq[E]]
+    def getLinks(id: UUID): Future[Seq[E]]
 
     @endpoint(
       method = RequestMethod.POST,
@@ -53,15 +54,21 @@ trait SockAPI extends Api {
     def getGraph(name: String): Future[G]
 
     @endpoint(
+      method = RequestMethod.GET,
+      path = "/g"
+    )
+    def getAllGraphs(): Future[Seq[String]]
+
+    @endpoint(
       method = RequestMethod.POST,
       path = "/g/:gid/e/:eid"
     )
-    def addEdge(id: Long, eid: Long): Future[G]
+    def addEdge(id: UUID, eid: UUID): Future[G]
 
     @endpoint(
       method = RequestMethod.GET,
       path = "/g/:gid/v/:vA/v/:vB"
     )
-    def findShortestPath(gid: Long, vA: Long, vB: Long): Future[G]
+    def findShortestPath(gid: UUID, vA: UUID, vB: UUID): Future[G]
 
 }
