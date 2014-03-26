@@ -3,16 +3,18 @@ package org.kndl.sock
 
 object GraphFactory {
 
-  def createGraph(name: String, vertices: Seq[V], edges: Seq[E]): G = {
-    new G(name, vertices, edges)
+  def createGraph(name: String): G = {
+    new G(name)
   }
 
-  def createVertex(name: String): V = {
-    new V(name)
+  def createVertex(graph: G, name: String): V = {
+    val v = new V(name)
+    graph ++ v
+    v
   }
 
-  def createEdge(vA: V, vB: V, w: Double): E = {
-    new E(vA, vB, w)
+  def createEdge(graph: G, vA: V, vB: V, w: Double): E = {
+    graph +| (vA, vB, w)
   }
 
 }
