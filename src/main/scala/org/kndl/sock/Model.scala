@@ -2,19 +2,6 @@ package org.kndl.sock
 
 import scala.slick.direct.AnnotationMapper.{column, table}
 
-@table("V")class V(
-   @column("id")val id: Long,
-   @column("name")val name: String
-)
-
-@table("E")class E(
-   @column("id")val id: Long,
-   @column("vA")val vA: V,
-   @column("vB")val vB: V,
-   @column("w")val w: Double
-)
-
-@table("G")class G(
-   @column("id")val id: Long,
-   @column("e")val e: Seq[E]
-)
+class V(val id: Long,val name: String) extends scala.Serializable
+class E(val id: Long,val vA: V,val vB: V,val w: Double) extends scala.Serializable
+class G(val id: Long,val name: String,val e: Seq[E]) extends scala.Serializable
