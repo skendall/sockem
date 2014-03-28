@@ -1,7 +1,8 @@
-package org.kndl.sock
+package org.kndl.sock.ws
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import org.kndl.sock._
 
 class SockService extends SockAPI {
 
