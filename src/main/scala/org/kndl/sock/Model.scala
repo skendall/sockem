@@ -19,4 +19,8 @@ class G(val name: String) extends scala.Serializable {
     e
   }
 
+  def --(v: V): Unit = ???
+
+  def -|(e: E): Unit = ???
+
 }
