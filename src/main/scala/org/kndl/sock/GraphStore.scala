@@ -30,6 +30,13 @@ object GraphStore {
     vertex
   }
 
+  def vertex(gname: String, vname: String):Option[V] = {
+    val g = readGraph(gname)
+    if(g.isDefined) {
+      g.vert
+    }
+  }
+
   //TODO: refactor this to use a single generic read/write object
 
   private def readVertex(name: String): Option[V] = {

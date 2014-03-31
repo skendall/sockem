@@ -7,9 +7,14 @@ class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable
 
 class G(val name: String) extends scala.Serializable {
 
-  var vertices: Seq[V] = Seq()
+  private var vertices: Seq[V] = Seq()
 
-  var edges: Seq[E] = Seq()
+  private var edges: Seq[E] = Seq()
+
+  def vertex(name: String):Option[V] = {
+    val v = vertices.filter { v => v.name == name }.last
+    Option(v)
+  }
 
   def ++(v: V) = vertices = vertices :+ v
 
@@ -24,3 +29,11 @@ class G(val name: String) extends scala.Serializable {
   def -|(e: E): Unit = ???
 
 }
+
+sealed trait MetaData {
+  implicit def lastUpdated: Long = System.currentTimeMillis()
+}
+
+case class VertexMetaData(data:Map[String,String]) extends MetaData
+case class EdgeMetaData(data:Map[String,String]) extends MetaData
+case class GraphMetaData(data:Map[String,String]) extends MetaData
