@@ -34,7 +34,7 @@ class SockService extends SockAPI {
     }
   }
 
-  def getVertex(gname: String, vname: String): Future[Option[V]] = ???
+  def getVertex(gname: String, vname: String): Future[Option[V]] = Future(GraphStore.graph())
 
   def getVertices(gname: String): Future[Map[Long, V]] = ???
 
