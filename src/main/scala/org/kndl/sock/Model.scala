@@ -16,6 +16,11 @@ class G(val name: String) extends scala.Serializable {
     Option(v)
   }
 
+  def edge(v: V):Option[E] = {
+    val e = edges.filter { e => e.vA == v }.last
+    Option(e)
+  }
+
   def ++(v: V) = vertices = vertices :+ v
 
   def +|(v1: V, v2: V, w: Double):E = {

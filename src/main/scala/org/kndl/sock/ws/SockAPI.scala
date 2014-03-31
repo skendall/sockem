@@ -64,7 +64,7 @@ trait SockAPI extends Api {
 
   @endpoint(
     method = RequestMethod.GET,
-    path = "/g/:gid/v/:vname1/v/:vname2"
+    path = "/spf/:gid/v/:vname1/v/:vname2"
   )
   def findShortestPath(gid: String, vA: String, vB: String): Future[G]
 

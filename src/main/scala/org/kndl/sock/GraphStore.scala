@@ -5,7 +5,28 @@ import scala.pickling._
 import json._
 import scala.io.Source
 
-object GraphStore {
+trait GraphStore {
+
+  // graph persistence
+
+  def saveGraph(graph: G):G
+  def graph(name: String):Option[G]
+  def graphs():Seq[String]
+
+  // vertext persistence
+
+  def saveVertex(gname:String, vertex:V):V
+  def vertex(gname:String, vname:String):V
+
+  // edge persistence
+
+  def saveEdge(gname:String, vA:V, vB:V, w:Double):E
+  def edges(gname:String, v:V):Seq[E]
+  def edge(gname:String, vA:V, vB:V):Seq[E]
+
+}
+
+object FileGraphStore extends GraphStore {
 
   val dataDir = new File("data")
   if(!dataDir.exists()) dataDir.mkdir()
@@ -25,39 +46,30 @@ object GraphStore {
       .map(f => f.getName.substring(0,f.getName.length-2))
   }
 
-  def saveVertex(vertex: V):V = {
-    writeVertex(vertex)
+  def saveVertex(gname: String, vertex: V):V = {
+    val g = readGraph(gname)
+    if(g.isDefined) {
+
+    }
     vertex
   }
 
   def vertex(gname: String, vname: String):Option[V] = {
     val g = readGraph(gname)
     if(g.isDefined) {
-      g.vert
-    }
-  }
-
-  //TODO: refactor this to use a single generic read/write object
-
-  private def readVertex(name: String): Option[V] = {
-    val fName = "data" + File.separator + name + ".v"
-    val f = new File(fName)
-    if (f.exists) {
-      var str = ""
-      for (s <- Source.fromFile(fName).getLines())
-        str ++= s
-      Option(str.unpickle[V])
+      Option(g.get.vertex(vname).get)
     } else {
       Option(null)
     }
   }
 
-  private def writeVertex(vertex: V) {
-    val pckl = vertex.pickle
-    val out = new PrintWriter(new File("data" + File.separator + vertex.name + ".v"))
-    out.print(pckl.value)
-    out.close()
-  }
+  def saveEdge(gname: String, vA: V, vB: V, w: Double): E = ???
+
+  def edges(gname: String, v: V): Seq[E] = ???
+
+  def edge(gname: String, vA: V, vB: V): Seq[E] = ???
+
+  // file helper functions
 
   private def readGraph(name: String): Option[G] = {
     val fName = "data" + File.separator + name + ".g"
@@ -78,4 +90,6 @@ object GraphStore {
     out.print(pckl.value)
     out.close()
   }
+
+
 }
