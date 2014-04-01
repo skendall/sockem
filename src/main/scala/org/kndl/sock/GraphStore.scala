@@ -63,22 +63,40 @@ object FileGraphStore extends GraphStore {
     }
   }
 
-  def saveEdge(gname: String, edge: E): E = {
+  def saveEdge(gname: String, vA: V, vB: V, w: Double): E = {
     val g = readGraph(gname)
     if(g.isDefined) {
-      g.get +| edge
+      val graph = g.get
+      val e = graph.edge(vA,vB)
+      val newEdge = new E(vA,vB,w)
+      if(e.isDefined) {
+        val edge = e.get
+        graph -| edge
+      }
+      graph +| newEdge
+      newEdge
+    } else {
+      null
     }
-    edge
   }
 
   def edges(gname: String, v: V): Seq[E] = {
     val g = readGraph(gname)
     if(g.isDefined) {
-      g.get.
+      g.get.edges(v)
+    } else {
+      Seq()
     }
   }
 
-  def edge(gname: String, vA: V, vB: V): Seq[E] = ???
+  def edge(gname: String, vA: V, vB: V): Option[E] = {
+    val g = readGraph(gname)
+    if(g.isDefined) {
+      g.get.edge(vA, vB)
+    } else {
+      Option(null)
+    }
+  }
 
   // file helper functions
 

@@ -16,8 +16,8 @@ class G(val name: String) extends scala.Serializable {
     Option(v)
   }
 
-  def edge(v: V):Option[E] = {
-    val e = edges.filter { e => e.vA == v }.last
+  def edge(vA: V, vB: V):Option[E] = {
+    val e = edges.filter { e => e.vA == vA && e.vB == vB }.last
     Option(e)
   }
 
