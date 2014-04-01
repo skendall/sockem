@@ -16,14 +16,14 @@ trait GraphStore {
   // vertext persistence
 
   def saveVertex(gname:String, vertex:V):V
-  def vertex(gname:String, vname:String):V
+  def vertex(gname:String, vname:String):Option[V]
   def vertices(gname:String):Seq[V]
 
   // edge persistence
 
   def saveEdge(gname:String, vA:V, vB:V, w:Double):E
   def edges(gname:String, v:V):Seq[E]
-  def edge(gname:String, vA:V, vB:V):Seq[E]
+  def edge(gname:String, vA:V, vB:V):Option[E]
 
 }
 
@@ -61,6 +61,15 @@ object FileGraphStore extends GraphStore {
       Option(g.get.vertex(vname).get)
     } else {
       Option(null)
+    }
+  }
+
+  def vertices(gname: String): Seq[V] = {
+    val g = readGraph(gname)
+    if(g.isDefined) {
+      g.get.vertices
+    } else {
+      Seq()
     }
   }
 
@@ -121,10 +130,4 @@ object FileGraphStore extends GraphStore {
     out.close()
   }
 
-  def vertices(gname: String): Seq[V] = {
-    val g = readGraph(gname)
-    if(g.isDefined) {
-      g.get.
-    }
-  }
 }

@@ -14,7 +14,7 @@ object GraphFactory {
   }
 
   def createEdge(graph: G, vA: V, vB: V, w: Double): E = {
-    graph +| (vA, vB, w)
+    graph +| (new E(vA,vB,w))
   }
 
 }
