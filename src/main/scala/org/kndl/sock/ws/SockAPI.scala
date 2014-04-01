@@ -44,7 +44,7 @@ trait SockAPI extends Api {
     method = RequestMethod.GET,
     path = "/g/:name/v"
   )
-  def getVertices(gname: String): Future[Map[String, V]]
+  def getVertices(gname: String): Future[Seq[V]]
 
   // Edge methods
 
@@ -58,7 +58,7 @@ trait SockAPI extends Api {
     method = RequestMethod.POST,
     path = "/g/:gname/e/:vname1/:vname2/:weight"
   )
-  def addEdge(gname: String, vname1: String, vname2: String, weight: Double): Future[G]
+  def addEdge(gname: String, vname1: String, vname2: String, weight: Double): Future[E]
 
   // Graph operations
 
