@@ -49,23 +49,34 @@ object FileGraphStore extends GraphStore {
   def saveVertex(gname: String, vertex: V):V = {
     val g = readGraph(gname)
     if(g.isDefined) {
-
+      g.get ++ vertex
     }
     vertex
   }
 
   def vertex(gname: String, vname: String):Option[V] = {
     val g = readGraph(gname)
-    if(g.isDefined) {
+    if(g.isDefined && g.get.vertex(vname).isDefined) {
       Option(g.get.vertex(vname).get)
     } else {
       Option(null)
     }
   }
 
-  def saveEdge(gname: String, vA: V, vB: V, w: Double): E = ???
+  def saveEdge(gname: String, edge: E): E = {
+    val g = readGraph(gname)
+    if(g.isDefined) {
+      g.get +| edge
+    }
+    edge
+  }
 
-  def edges(gname: String, v: V): Seq[E] = ???
+  def edges(gname: String, v: V): Seq[E] = {
+    val g = readGraph(gname)
+    if(g.isDefined) {
+      g.get.
+    }
+  }
 
   def edge(gname: String, vA: V, vB: V): Seq[E] = ???
 
@@ -90,6 +101,5 @@ object FileGraphStore extends GraphStore {
     out.print(pckl.value)
     out.close()
   }
-
 
 }

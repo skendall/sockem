@@ -21,10 +21,13 @@ class G(val name: String) extends scala.Serializable {
     Option(e)
   }
 
+  def edges(v: V): Seq[E] = {
+    edges.filter { e => e.vA == v || e.vB == v }
+  }
+
   def ++(v: V) = vertices = vertices :+ v
 
-  def +|(v1: V, v2: V, w: Double):E = {
-    val e = new E(v1,v2,w)
+  def +|(e: E):E = {
     edges = edges :+ e
     e
   }
