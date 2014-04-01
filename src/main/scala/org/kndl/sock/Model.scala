@@ -7,37 +7,39 @@ class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable
 
 class G(val name: String) extends scala.Serializable {
 
-  private var vertices: Seq[V] = Seq()
+  private var vertexList: Seq[V] = Seq()
 
-  private var edges: Seq[E] = Seq()
+  private var edgeList: Seq[E] = Seq()
 
   def vertex(name: String):Option[V] = {
-    val v = vertices.filter { v => v.name == name }.last
+    val v = vertexList.filter { v => v.name == name }.last
     Option(v)
   }
 
+  def vertices:Seq[V] = vertexList
+
   def edge(vA: V, vB: V):Option[E] = {
-    val e = edges.filter { e => e.vA == vA && e.vB == vB }.last
+    val e = edgeList.filter { e => e.vA == vA && e.vB == vB }.last
     Option(e)
   }
 
   def edges(v: V): Seq[E] = {
-    edges.filter { e => e.vA == v || e.vB == v }
+    edgeList.filter { e => e.vA == v || e.vB == v }
   }
 
-  def ++(v: V) = vertices = vertices :+ v
+  def ++(v: V) = vertexList = vertexList :+ v
 
   def +|(e: E):E = {
-    edges = edges :+ e
+    edgeList = edgeList :+ e
     e
   }
 
   def --(v: V): Unit = {
-    vertices = vertices.filter { vertex => vertex.name == v.name }
+    vertexList = vertexList.filter { vertex => vertex.name == v.name }
   }
 
   def -|(e: E): Unit = {
-    edges = edges.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
+    edgeList = edgeList.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
   }
 
 }

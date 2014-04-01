@@ -17,6 +17,7 @@ trait GraphStore {
 
   def saveVertex(gname:String, vertex:V):V
   def vertex(gname:String, vname:String):V
+  def vertices(gname:String):Seq[V]
 
   // edge persistence
 
@@ -120,4 +121,10 @@ object FileGraphStore extends GraphStore {
     out.close()
   }
 
+  def vertices(gname: String): Seq[V] = {
+    val g = readGraph(gname)
+    if(g.isDefined) {
+      g.get.
+    }
+  }
 }

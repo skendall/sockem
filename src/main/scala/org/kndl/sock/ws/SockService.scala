@@ -8,12 +8,12 @@ class SockService extends SockAPI {
 
   def createGraph(name: String): Future[G] = {
     val g = GraphFactory.createGraph(name)
-    GraphStore.saveGraph(g)
+    FileGraphStore.saveGraph(g)
     Future(g)
   }
 
   def getGraph(name: String): Future[G] = {
-    val g = GraphStore.graph(name)
+    val g = FileGraphStore.graph(name)
     if(g.isDefined) {
       Future(g.get)
     } else {
@@ -21,22 +21,22 @@ class SockService extends SockAPI {
     }
   }
 
-  def getAllGraphs(): Future[Seq[String]] = Future(GraphStore.graphs())
+  def getAllGraphs(): Future[Seq[String]] = Future(FileGraphStore.graphs())
 
   def createVertex(gname: String, vname: String): Future[Option[V]] = {
-    val g = GraphStore.graph(gname)
+    val g = FileGraphStore.graph(gname)
     if(g.isDefined) {
       val v = GraphFactory.createVertex(g.get,vname)
-      GraphStore.saveGraph(g.get)
+      FileGraphStore.saveGraph(g.get)
       Future(Option(v))
     } else {
       Future(Option(null))
     }
   }
 
-  def getVertex(gname: String, vname: String): Future[Option[V]] = Future(GraphStore.graph())
+  def getVertex(gname: String, vname: String): Future[Option[V]] = Future(FileGraphStore.vertex(gname,vname))
 
-  def getVertices(gname: String): Future[Map[Long, V]] = ???
+  def getVertices(gname: String): Future[Map[String, V]] = Future(FileGraphStore.)
 
   def getEdges(gname: String, vname: String): Future[Seq[E]] = ???
 
