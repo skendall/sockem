@@ -32,9 +32,13 @@ class G(val name: String) extends scala.Serializable {
     e
   }
 
-  def --(v: V): Unit = ???
+  def --(v: V): Unit = {
+    vertices = vertices.filter { vertex => vertex.name == v.name }
+  }
 
-  def -|(e: E): Unit = ???
+  def -|(e: E): Unit = {
+    edges = edges.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
+  }
 
 }
 
