@@ -64,8 +64,8 @@ class GraphTest extends FlatSpec with Matchers {
     g ++ v1
     g ++ v2
 
-    val e1 = new E(v1, v2, 10)
-    val e2 = new E(v2, v1, 5)
+    val e1 = v1 -> (v2, 10)
+    val e2 = v2 -> (v1, 5)
 
     g +| e1
     g +| e2
