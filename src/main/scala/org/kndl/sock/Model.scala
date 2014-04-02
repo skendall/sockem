@@ -1,7 +1,17 @@
 package org.kndl.sock
 
 
-class V(val name: String) extends scala.Serializable
+class V(val name: String) extends scala.Serializable {
+
+  def ->(v: V,w: Double): E = {
+    new E(this,v,w)
+  }
+
+  def <->(v: V, weightTo: Double, weightFrom: Double): Seq[E] = {
+    Seq(new E(this,v,weightTo), new E(v,this,weightFrom))
+  }
+
+}
 
 class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable
 
