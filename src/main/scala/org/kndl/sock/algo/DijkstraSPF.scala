@@ -14,7 +14,6 @@ class DijkstraSPF {
       } else {
         nodes ++= Map(v -> -1)
       }
-      v.set
     }
 
     var current = start
