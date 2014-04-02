@@ -7,7 +7,7 @@ import org.kndl.sock._
 class SockService extends SockAPI {
 
   def createGraph(name: String): Future[G] = {
-    val g = GraphFactory.createGraph(name)
+    val g = new G(name)
     FileGraphStore.saveGraph(g)
     Future(g)
   }
@@ -26,7 +26,8 @@ class SockService extends SockAPI {
   def createVertex(gname: String, vname: String): Future[Option[V]] = {
     val g = FileGraphStore.graph(gname)
     if(g.isDefined) {
-      val v = GraphFactory.createVertex(g.get,vname)
+      val v = new V(vname)
+      g.get ++ v
       FileGraphStore.saveGraph(g.get)
       Future(Option(v))
     } else {
