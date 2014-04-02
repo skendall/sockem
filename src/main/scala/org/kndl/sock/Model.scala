@@ -72,7 +72,6 @@ final class G(val name: String) extends scala.Serializable {
     val edge = edgeList.find{ edge => edge.vA == e.vA && edge.vB == e.vB }
     if(edge.isDefined) {
       val idx = edgeList.indexOf(edge)
-      println("idx = " + idx)
       edgeList = edgeList.updated(idx,new E(e.vA,e.vB,e.w))
     } else
       edgeList = edgeList :+ e
