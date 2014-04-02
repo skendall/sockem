@@ -9,6 +9,7 @@ resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= Seq(
+    "org.scalatest" %% "scalatest" % "2.1.0" % "test",
     "net.fwbrasil" %% "zoot-core" % "1.0-RC1",
     "net.fwbrasil" %% "zoot-finagle" % "1.0-RC1",
     "com.typesafe.akka" %% "akka-actor" % "2.3.0",
