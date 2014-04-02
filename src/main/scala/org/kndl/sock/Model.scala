@@ -3,6 +3,8 @@ package org.kndl.sock
 
 final class V(val name: String) extends scala.Serializable {
 
+  private var metaData: Map[String,String] = Map()
+
   def ->(v: V,w: Double): E = {
     new E(this,v,w)
   }
@@ -10,6 +12,8 @@ final class V(val name: String) extends scala.Serializable {
   def <->(v: V, weightTo: Double, weightFrom: Double): Seq[E] = {
     Seq(new E(this,v,weightTo), new E(v,this,weightFrom))
   }
+
+  def set("")
 
   override def equals(other: Any) = other.isInstanceOf[V] && other.asInstanceOf[V].name == name
 
@@ -49,6 +53,11 @@ final class G(val name: String) extends scala.Serializable {
 
   def ++(v: V):G = {
     vertexList = vertexList :+ v
+    this
+  }
+
+  def +|(edges:Seq[E]):G = {
+    for(e <- edges) this +| e
     this
   }
 
