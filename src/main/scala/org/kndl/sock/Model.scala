@@ -13,6 +13,8 @@ final class V(val name: String) extends scala.Serializable {
 
   override def equals(other: Any) = other.isInstanceOf[V] && other.asInstanceOf[V].name == name
 
+  override def toString = name
+
 }
 
 final class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable {
@@ -21,6 +23,8 @@ final class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable {
       other.isInstanceOf[E] &&
       other.asInstanceOf[E].vA == vA &&
       other.asInstanceOf[E].vB == vB
+
+  override def toString = vA + " -> " + vB + " (" + w + ")"
 
 }
 
@@ -41,11 +45,27 @@ final class G(val name: String) extends scala.Serializable {
 
   def edges(v: V): Seq[E] = edgeList.filter { e => e.vA == v || e.vB == v }
 
-  def ++(v: V) = vertexList = vertexList :+ v
+  def edges:Seq[E] = edgeList
 
-  def +|(vA: V, vB: V, w: Double):E = this +| (vA -> (vB,w))
+  def ++(v: V):G = {
+    vertexList = vertexList :+ v
+    this
+  }
 
-  def +|(e: E):E = {
+  def +|(vA: String, vB: String, w: Double):G = {
+    val va = vertexList.find { vertex => vertex.name == vA }
+    val vb = vertexList.find { vertex => vertex.name == vB }
+    if(va.isDefined && vb.isDefined)
+      this +| (va.get,vb.get,w)
+    this
+  }
+
+  def +|(vA: V, vB: V, w: Double):G = {
+    this +| (vA -> (vB,w))
+    this
+  }
+
+  def +|(e: E):G = {
     if(!vertices.find{ vertex => vertex.name == e.vA || vertex.name == e.vB }.isDefined)
       null
 
@@ -56,15 +76,17 @@ final class G(val name: String) extends scala.Serializable {
       edgeList = edgeList.updated(idx,new E(e.vA,e.vB,e.w))
     } else
       edgeList = edgeList :+ e
-    e
+    this
   }
 
-  def --(v: V): Unit = {
+  def --(v: V):G = {
     vertexList = vertexList.filter { vertex => vertex.name == v.name }
+    this
   }
 
-  def -|(e: E): Unit = {
+  def -|(e: E):G = {
     edgeList = edgeList.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
+    this
   }
 
 }
