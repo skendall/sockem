@@ -14,7 +14,7 @@ class GraphTest extends FlatSpec with Matchers {
     assert(v.name == "test")
   }
 
-  "An edge" should "have two vertexs and a weight" in {
+  "An edge" should "have two vertices and a weight" in {
     val e = new E(new V("v1"), new V("v2"), 10)
     assert(e.vA.name == "v1")
     assert(e.vB.name == "v2")
@@ -77,6 +77,23 @@ class GraphTest extends FlatSpec with Matchers {
 
     assert(g.edges(v1).size == 1)
     assert(g.edges(v2).size == 1)
+  }
+
+  it should "allow modification of edges" in {
+    val g = new G("test")
+    val v1 = new V("v1")
+    val v2 = new V("v2")
+
+    g ++ v1
+    g ++ v2
+
+    g +| (v1,v2,10)
+
+    assert(g.edge(v1,v2).get.w == 10)
+
+    g +| (v1,v2,5)
+
+    assert(g.edge(v1,v2).get.w == 5)
   }
 
 }

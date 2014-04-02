@@ -1,7 +1,7 @@
 package org.kndl.sock
 
 
-class V(val name: String) extends scala.Serializable {
+final class V(val name: String) extends scala.Serializable {
 
   def ->(v: V,w: Double): E = {
     new E(this,v,w)
@@ -11,11 +11,20 @@ class V(val name: String) extends scala.Serializable {
     Seq(new E(this,v,weightTo), new E(v,this,weightFrom))
   }
 
+  override def equals(other: Any) = other.isInstanceOf[V] && other.asInstanceOf[V].name == name
+
 }
 
-class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable
+final class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable {
 
-class G(val name: String) extends scala.Serializable {
+  override def equals(other: Any) =
+      other.isInstanceOf[E] &&
+      other.asInstanceOf[E].vA == vA &&
+      other.asInstanceOf[E].vB == vB
+
+}
+
+final class G(val name: String) extends scala.Serializable {
 
   private var vertexList: Seq[V] = Seq()
 
@@ -28,21 +37,25 @@ class G(val name: String) extends scala.Serializable {
 
   def vertices:Seq[V] = vertexList
 
-  def edge(vA: V, vB: V):Option[E] = {
-    val e = edgeList.filter { e => e.vA == vA && e.vB == vB }.last
-    Option(e)
-  }
+  def edge(vA: V, vB: V):Option[E] = edgeList.find { e => e.vA == vA && e.vB == vB }
 
-  def edges(v: V): Seq[E] = {
-    edgeList.filter { e => e.vA == v || e.vB == v }
-  }
+  def edges(v: V): Seq[E] = edgeList.filter { e => e.vA == v || e.vB == v }
 
   def ++(v: V) = vertexList = vertexList :+ v
 
+  def +|(vA: V, vB: V, w: Double):E = this +| (vA -> (vB,w))
+
   def +|(e: E):E = {
-    if(edgeList.filter{ edge => edge.vA == e.vA && edge.vB == e.vB }.length == 0)
+    if(!vertices.find{ vertex => vertex.name == e.vA || vertex.name == e.vB }.isDefined)
       null
-    edgeList = edgeList :+ e
+
+    val edge = edgeList.find{ edge => edge.vA == e.vA && edge.vB == e.vB }
+    if(edge.isDefined) {
+      val idx = edgeList.indexOf(edge)
+      println("idx = " + idx)
+      edgeList = edgeList.updated(idx,new E(e.vA,e.vB,e.w))
+    } else
+      edgeList = edgeList :+ e
     e
   }
 
