@@ -40,6 +40,8 @@ class G(val name: String) extends scala.Serializable {
   def ++(v: V) = vertexList = vertexList :+ v
 
   def +|(e: E):E = {
+    if(edgeList.filter{ edge => edge.vA == e.vA && edge.vB == e.vB }.length == 0)
+      null
     edgeList = edgeList :+ e
     e
   }
