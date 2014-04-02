@@ -6,7 +6,7 @@ scalaVersion := "2.10.3"
 
 resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
 
-scalacOptions in Test ++= Seq("-Yrangepos")
+//scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "2.1.0" % "test",
