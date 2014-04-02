@@ -26,4 +26,57 @@ class GraphTest extends FlatSpec with Matchers {
     assert(g.name == "test")
     assert(g.vertices.isEmpty)
   }
+
+  it should "allow addition of vertices" in {
+    val g = new G("test")
+    val v1 = new V("v1")
+    val v2 = new V("v2")
+    g ++ v1
+    g ++ v2
+    assert(g.vertices.size == 2)
+    assert(g.vertex("v1").isDefined)
+    assert(g.vertex("v2").isDefined)
+  }
+
+  it should "allow addition of edges" in {
+    val g = new G("test")
+    val v1 = new V("v1")
+    val v2 = new V("v2")
+    g ++ v1
+    g ++ v2
+
+    val e1 = new E(v1, v2, 10)
+    val e2 = new E(v2, v1, 5)
+    g +| e1
+    g +| e2
+
+    assert(g.edges(v1).size == 2)
+    assert(g.edges(v2).size == 2)
+    assert(g.edge(v1,v2).isDefined)
+    assert(g.edge(v1,v2).get.w == 10)
+    assert(g.edge(v2,v1).get.w == 5)
+  }
+
+  it should "allow removal of edges" in {
+    val g = new G("test")
+    val v1 = new V("v1")
+    val v2 = new V("v2")
+    g ++ v1
+    g ++ v2
+
+    val e1 = new E(v1, v2, 10)
+    val e2 = new E(v2, v1, 5)
+
+    g +| e1
+    g +| e2
+
+    assert(g.edges(v1).size == 2)
+    assert(g.edges(v2).size == 2)
+
+    g -| e1
+
+    assert(g.edges(v1).size == 1)
+    assert(g.edges(v2).size == 1)
+  }
+
 }
