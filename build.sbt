@@ -13,5 +13,3 @@ libraryDependencies ++= Seq(
     "com.typesafe.akka" %% "akka-actor" % "2.3.0",
     "org.scala-lang" %% "scala-pickling" % "0.8.0-SNAPSHOT"
 )
-
-net.virtualvoid.sbt.graph.Plugin.graphSettings
