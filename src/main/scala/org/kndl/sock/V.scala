@@ -1,6 +1,6 @@
 package org.kndl.sock
 
-class V(val name: String) extends scala.Serializable {
+case class V(val name: String) extends scala.Serializable {
 
   def ->(v: V,w: Double): E = {
     new E(this,v,w)

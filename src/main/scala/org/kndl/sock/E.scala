@@ -1,6 +1,6 @@
 package org.kndl.sock
 
-class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable {
+case class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable {
 
   override def equals(other: Any) =
     other.isInstanceOf[E] &&

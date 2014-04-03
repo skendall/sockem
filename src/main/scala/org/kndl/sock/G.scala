@@ -1,26 +1,26 @@
 package org.kndl.sock
 
-class G(val name: String) extends scala.Serializable {
+case class G(val name: String) extends scala.Serializable {
 
-  private var vertexList: Seq[V] = Seq()
+  private var vertexSet: Set[V] = Set()
 
-  private var edgeList: Seq[E] = Seq()
+  private var edgeSet: Set[E] = Set()
 
   def vertex(name: String):Option[V] = {
-    val v = vertexList.filter { v => v.name == name }.last
+    val v = vertexSet.filter { v => v.name == name }.last
     Option(v)
   }
 
-  def vertices:Seq[V] = vertexList
+  def vertices:Set[V] = vertexSet
 
-  def edge(vA: V, vB: V):Option[E] = edgeList.find { e => e.vA == vA && e.vB == vB }
+  def edge(vA: V, vB: V):Option[E] = edgeSet.find { e => e.vA == vA && e.vB == vB }
 
-  def edges(v: V): Seq[E] = edgeList.filter { e => e.vA == v || e.vB == v }
+  def edges(v: V): Set[E] = edgeSet.filter { e => e.vA == v || e.vB == v }
 
-  def edges:Seq[E] = edgeList
+  def edges:Set[E] = edgeSet
 
   def ++(v: V):G = {
-    vertexList = vertexList :+ v
+    vertexSet = vertexSet + v
     this
   }
 
@@ -30,8 +30,8 @@ class G(val name: String) extends scala.Serializable {
   }
 
   def +|(vA: String, vB: String, w: Double):G = {
-    val va = vertexList.find { vertex => vertex.name == vA }
-    val vb = vertexList.find { vertex => vertex.name == vB }
+    val va = vertexSet.find { vertex => vertex.name == vA }
+    val vb = vertexSet.find { vertex => vertex.name == vB }
     if(va.isDefined && vb.isDefined)
       this +| (va.get,vb.get,w)
     this
@@ -46,25 +46,24 @@ class G(val name: String) extends scala.Serializable {
     if(!vertices.find{ vertex => vertex.name == e.vA || vertex.name == e.vB }.isDefined)
       null
 
-    val edge = edgeList.find{ edge => edge.vA == e.vA && edge.vB == e.vB }
+    val edge = edgeSet.find{ edge => edge.vA == e.vA && edge.vB == e.vB }
     if(edge.isDefined) {
-      val idx = edgeList.indexOf(edge)
-      edgeList = edgeList.updated(idx,new E(e.vA,e.vB,e.w))
+      edgeSet = edgeSet + new E(e.vA,e.vB,e.w)
     } else
-      edgeList = edgeList :+ e
+      edgeSet = edgeSet + e
     this
   }
 
   def --(v: V):G = {
-    vertexList = vertexList.filter { vertex => vertex.name == v.name }
+    vertexSet = vertexSet.filter { vertex => vertex.name == v.name }
     this
   }
 
   def -|(e: E):G = {
-    edgeList = edgeList.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
+    edgeSet = edgeSet.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
     this
   }
 
-  override def toString = name + " - Vertices " + vertexList + " - Edges " + edgeList
+  override def toString = name + " - Vertices " + vertexSet + " - Edges " + edgeSet
 
 }
