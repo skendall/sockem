@@ -3,7 +3,7 @@ package org.kndl.sock
 case class V(val name: String) extends scala.Serializable {
 
   def ->(v: V,w: Double): E = {
-    new E(this,v,w)
+    E(this,v,w)
   }
 
   def <->(v: V, weightTo: Double, weightFrom: Double): Seq[E] = {

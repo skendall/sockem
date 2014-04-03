@@ -17,9 +17,9 @@ class DijkstraTest extends FlatSpec with Matchers {
 
     val (distance,path) = Dijkstra(graph,from,to)
 
-    assert(path(0) == "v1")
-    assert(path(1) == "v2")
-    assert(path(2) == "v4")
+    assert(path(0) == V("v1"))
+    assert(path(1) == V("v2"))
+    assert(path(2) == V("v4"))
   }
 
 }

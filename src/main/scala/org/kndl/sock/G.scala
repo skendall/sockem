@@ -48,6 +48,7 @@ case class G(val name: String) extends scala.Serializable {
 
     val edge = edgeSet.find{ edge => edge.vA == e.vA && edge.vB == e.vB }
     if(edge.isDefined) {
+      edgeSet = edgeSet -- edge
       edgeSet = edgeSet + new E(e.vA,e.vB,e.w)
     } else
       edgeSet = edgeSet + e
