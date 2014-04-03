@@ -96,4 +96,20 @@ class GraphTest extends FlatSpec with Matchers {
     assert(g.edge(v1,v2).get.w == 5)
   }
 
+  it should "calculate the shortest path correctly" in {
+    val g = G("test")
+    val v1 = V("v1")
+    val v4 = V("v4")
+
+    g ++ v1 ++ V("v2") ++ V("v3") ++ v4 +| ("v1","v2",5) +| ("v1","v3",5) +| ("v3","v4",2) +| ("v2","v4",5)
+
+    val (dist,path) = g ~ (v1,v4)
+
+    assert(dist == 7)
+    assert(path(0) == v1)
+    assert(path(1) == V("v3"))
+    assert(path(2) == V("v4"))
+
+  }
+
 }

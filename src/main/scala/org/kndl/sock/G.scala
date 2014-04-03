@@ -1,5 +1,7 @@
 package org.kndl.sock
 
+import org.kndl.sock.aglo.spf.Dijkstra
+
 case class G(val name: String) extends scala.Serializable {
 
   private var vertexSet: Set[V] = Set()
@@ -64,6 +66,8 @@ case class G(val name: String) extends scala.Serializable {
     edgeSet = edgeSet.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
     this
   }
+
+  def ~(v1: V, v2: V) = Dijkstra(this,v1,v2)
 
   override def toString = name + " - Vertices " + vertexSet + " - Edges " + edgeSet
 
