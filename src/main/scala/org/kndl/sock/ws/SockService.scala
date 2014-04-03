@@ -51,6 +51,19 @@ class SockService extends SockAPI {
     }
   }
 
-  def findShortestPath(gid: String, vA: String, vB: String): Future[G] = ???
+  def findShortestPath(gid: String, vA: String, vB: String): Future[G] = {
+    val g = FileGraphStore.graph(gid)
+    val spfGraph = G("spf")
+    if(g.isDefined) {
+      val graph = g.get
+      val (d,p) = graph ~ (V(vA),V(vB))
+      val i = p.grouped(2)
+      while(i.hasNext) {
+        val vs = i.next()
+        spfGraph ++ vs(0) ++ vs(1) +| graph.edge(vs(0),vs(1)).get
+      }
+    }
+    Future(spfGraph)
+  }
 
 }

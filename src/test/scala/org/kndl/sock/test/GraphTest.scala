@@ -109,7 +109,6 @@ class GraphTest extends FlatSpec with Matchers {
     assert(path(0) == v1)
     assert(path(1) == V("v3"))
     assert(path(2) == V("v4"))
-
   }
 
 }
