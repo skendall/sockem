@@ -11,18 +11,18 @@ trait GraphStore {
 
   def saveGraph(graph: G):G
   def graph(name: String):Option[G]
-  def graphs():Seq[String]
+  def graphs():Set[String]
 
   // vertext persistence
 
   def saveVertex(gname:String, vertex:V):V
   def vertex(gname:String, vname:String):Option[V]
-  def vertices(gname:String):Seq[V]
+  def vertices(gname:String):Set[V]
 
   // edge persistence
 
   def saveEdge(gname:String, vA:V, vB:V, w:Double):E
-  def edges(gname:String, v:V):Seq[E]
+  def edges(gname:String, v:V):Set[E]
   def edge(gname:String, vA:V, vB:V):Option[E]
 
 }
@@ -41,10 +41,10 @@ object FileGraphStore extends GraphStore {
     readGraph(name)
   }
 
-  def graphs():Seq[String] = {
+  def graphs():Set[String] = {
     dataDir.listFiles
       .filter(_.getName.endsWith(".g"))
-      .map(f => f.getName.substring(0,f.getName.length-2))
+      .map(f => f.getName.substring(0,f.getName.length-2)).toSet
   }
 
   def saveVertex(gname: String, vertex: V):V = {
@@ -64,12 +64,12 @@ object FileGraphStore extends GraphStore {
     }
   }
 
-  def vertices(gname: String): Seq[V] = {
+  def vertices(gname: String): Set[V] = {
     val g = readGraph(gname)
     if(g.isDefined) {
       g.get.vertices
     } else {
-      Seq()
+      Set()
     }
   }
 
@@ -90,12 +90,12 @@ object FileGraphStore extends GraphStore {
     }
   }
 
-  def edges(gname: String, v: V): Seq[E] = {
+  def edges(gname: String, v: V): Set[E] = {
     val g = readGraph(gname)
     if(g.isDefined) {
       g.get.edges(v)
     } else {
-      Seq()
+      Set()
     }
   }
 

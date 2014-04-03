@@ -2,10 +2,10 @@ package org.kndl.sock.aglo.spf
 
 import org.kndl.sock.{E, V, G}
 
-class Dijkstra(val graph: G) {
-  def computeSPF(source: V, target: V) = {
+object Dijkstra {
+  def apply(graph: G, source: V, target: V) = {
     val edges = graph.edges
-    var dist = Map(source -> 0).withDefaultValue(Int.MaxValue)
+    var dist = Map(source -> 0.0).withDefaultValue(Double.MaxValue)
     var unvisiteds = edges.flatMap { case E(s, e, _) => Seq(s, e) }.toSet
     var shortestHops = Map[V, V]()
 

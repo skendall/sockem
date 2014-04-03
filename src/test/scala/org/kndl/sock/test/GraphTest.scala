@@ -10,27 +10,27 @@ class GraphTest extends FlatSpec with Matchers {
    */
 
   "A vertex" should "have a name" in {
-    val v = new V("test")
+    val v = V("test")
     assert(v.name == "test")
   }
 
   "An edge" should "have two vertices and a weight" in {
-    val e = new E(new V("v1"), new V("v2"), 10)
+    val e = E( V("v1"),  V("v2"), 10)
     assert(e.vA.name == "v1")
     assert(e.vB.name == "v2")
     assert(e.w == 10)
   }
 
   "A graph" should "have a name and empty vertices and edges on init" in {
-    val g = new G("test")
+    val g = G("test")
     assert(g.name == "test")
     assert(g.vertices.isEmpty)
   }
 
   it should "allow addition of vertices" in {
-    val g = new G("test")
-    val v1 = new V("v1")
-    val v2 = new V("v2")
+    val g = G("test")
+    val v1 = V("v1")
+    val v2 = V("v2")
     g ++ v1
     g ++ v2
     assert(g.vertices.size == 2)
@@ -39,14 +39,14 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   it should "allow addition of edges" in {
-    val g = new G("test")
-    val v1 = new V("v1")
-    val v2 = new V("v2")
+    val g = G("test")
+    val v1 = V("v1")
+    val v2 = V("v2")
     g ++ v1
     g ++ v2
 
-    val e1 = new E(v1, v2, 10)
-    val e2 = new E(v2, v1, 5)
+    val e1 = E(v1, v2, 10)
+    val e2 = E(v2, v1, 5)
     g +| e1
     g +| e2
 
@@ -58,9 +58,9 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   it should "allow removal of edges" in {
-    val g = new G("test")
-    val v1 = new V("v1")
-    val v2 = new V("v2")
+    val g = G("test")
+    val v1 = V("v1")
+    val v2 = V("v2")
     g ++ v1
     g ++ v2
 
@@ -80,9 +80,9 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   it should "allow modification of edges" in {
-    val g = new G("test")
-    val v1 = new V("v1")
-    val v2 = new V("v2")
+    val g = G("test")
+    val v1 = V("v1")
+    val v2 = V("v2")
 
     g ++ v1
     g ++ v2

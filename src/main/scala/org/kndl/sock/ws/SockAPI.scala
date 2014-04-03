@@ -25,7 +25,7 @@ trait SockAPI extends Api {
     method = RequestMethod.GET,
     path = "/g"
   )
-  def getAllGraphs(): Future[Seq[String]]
+  def getAllGraphs(): Future[Set[String]]
 
   // Vertex methods
 
@@ -44,7 +44,7 @@ trait SockAPI extends Api {
     method = RequestMethod.GET,
     path = "/g/:name/v"
   )
-  def getVertices(gname: String): Future[Seq[V]]
+  def getVertices(gname: String): Future[Set[V]]
 
   // Edge methods
 
@@ -52,7 +52,7 @@ trait SockAPI extends Api {
     method = RequestMethod.GET,
     path = "/g/:gname/v/:vname/e"
   )
-  def getEdges(gname: String, vname: String): Future[Seq[E]]
+  def getEdges(gname: String, vname: String): Future[Set[E]]
 
   @endpoint(
     method = RequestMethod.POST,
