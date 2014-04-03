@@ -1,33 +1,5 @@
 package org.kndl.sock
 
-
-class V(val name: String) extends scala.Serializable {
-
-  def ->(v: V,w: Double): E = {
-    new E(this,v,w)
-  }
-
-  def <->(v: V, weightTo: Double, weightFrom: Double): Seq[E] = {
-    Seq(new E(this,v,weightTo), new E(v,this,weightFrom))
-  }
-
-  override def equals(other: Any) = other.isInstanceOf[V] && other.asInstanceOf[V].name == name
-
-  override def toString = name
-
-}
-
-class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable {
-
-  override def equals(other: Any) =
-      other.isInstanceOf[E] &&
-      other.asInstanceOf[E].vA == vA &&
-      other.asInstanceOf[E].vB == vB
-
-  override def toString = vA + " -> " + vB + " (" + w + ")"
-
-}
-
 class G(val name: String) extends scala.Serializable {
 
   private var vertexList: Seq[V] = Seq()
@@ -96,11 +68,3 @@ class G(val name: String) extends scala.Serializable {
   override def toString = name + " - Vertices " + vertexList + " - Edges " + edgeList
 
 }
-
-sealed trait MetaData {
-  implicit def lastUpdated: Long = System.currentTimeMillis()
-}
-
-case class VertexMetaData(data:Map[String,String]) extends MetaData
-case class EdgeMetaData(data:Map[String,String]) extends MetaData
-case class GraphMetaData(data:Map[String,String]) extends MetaData
