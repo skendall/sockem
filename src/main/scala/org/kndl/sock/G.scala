@@ -79,7 +79,18 @@ case class G(val name: String) extends scala.Serializable {
     path
   }
 
-  def visitAll(start: V, f: V => Unit):G = ???
+  def visitAll(start: V, f: V => Unit):G = {
+    var visited:Map[V,Boolean] = vertices.zipWithIndex {case(v,b) => (v -> false) }
+    visited += (start -> true)
+    for(edge <- edges(start)) {
+      if(!visited.get(edge.vB).get) {
+        f(edge.vB)
+        visited += (edge.vB -> true)
+        visitAll(edge.vB,f)
+      }
+    }
+    this
+  }
 
   override def toString = name + " - Vertices " + vertexSet + " - Edges " + edgeSet
 
