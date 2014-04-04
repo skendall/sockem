@@ -69,6 +69,18 @@ case class G(val name: String) extends scala.Serializable {
 
   def ~(v1: V, v2: V) = Dijkstra(this,v1,v2)
 
+  def traverseShortestPath(v1: V, v2: V, f: V => Unit): Seq[V] = {
+    var path = Seq[V]()
+    val (d,p) = Dijkstra(this,v1,v2)
+    for(v <- p) {
+      f(v)
+      path = path :+ v
+    }
+    path
+  }
+
+  def visitAll(start: V, f: V => Unit):G = ???
+
   override def toString = name + " - Vertices " + vertexSet + " - Edges " + edgeSet
 
 }
