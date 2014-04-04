@@ -111,4 +111,16 @@ class GraphTest extends FlatSpec with Matchers {
     assert(path(2) == V("v4"))
   }
 
+  it should "visit all nodes and successfully interact with each node" in {
+    val g = G("test")
+    val v1 = V("v1")
+    val v4 = V("v4")
+
+    g ++ v1 ++ V("v2") ++ V("v3") ++ v4 +| ("v1","v2",5) +| ("v1","v3",5) +| ("v3","v4",2) +| ("v2","v4",5)
+
+    val visited = g.visitAll(v1) { v => v.set("visited","true") }
+
+    for(v <- g.vertices) assert(v.get("visited").isDefined && v.get("visited").get == "true")
+  }
+
 }

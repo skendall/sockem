@@ -69,7 +69,7 @@ case class G(val name: String) extends scala.Serializable {
 
   def ~(v1: V, v2: V) = Dijkstra(this,v1,v2)
 
-  def traverseShortestPath(v1: V, v2: V, f: V => Unit): Seq[V] = {
+  def traverseShortestPath(v1: V, v2: V)( f: V => Unit): Seq[V] = {
     var path = Seq[V]()
     val (d,p) = Dijkstra(this,v1,v2)
     for(v <- p) {
@@ -79,14 +79,15 @@ case class G(val name: String) extends scala.Serializable {
     path
   }
 
-  def visitAll(start: V, f: V => Unit):G = {
-    var visited:Map[V,Boolean] = vertices.zipWithIndex {case(v,b) => (v -> false) }
+  def visitAll(start: V)(f: V => Unit):G = {
+    val start = vertices.head
+    var visited:Map[V,Boolean] = vertices.map {v => (v,false) }.toMap
     visited += (start -> true)
     for(edge <- edges(start)) {
       if(!visited.get(edge.vB).get) {
         f(edge.vB)
         visited += (edge.vB -> true)
-        visitAll(edge.vB,f)
+        visitAll(edge.vB)(f)
       }
     }
     this
