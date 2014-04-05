@@ -1,15 +1,17 @@
 package org.kndl.sock
 
+case class VertexMetaData(key: String, value: String, timestamp: Long)
+
 case class V(val name: String) extends scala.Serializable {
 
-  private var metaData:Map[String,String] = Map()
+  private var metaData: Seq[VertexMetaData] = Seq()
 
   def set(key: String, value: String):Unit = {
-    metaData = metaData + (key -> value)
+    metaData = metaData :+ VertexMetaData(key,value,System.currentTimeMillis())
   }
 
-  def get(key: String):Option[String] = {
-    metaData.get(key)
+  def get(key: String):Option[VertexMetaData] = {
+    metaData.find { vmd => vmd.key == key }
   }
 
   def ->(v: V,w: Double): E = {
