@@ -82,9 +82,9 @@ case class G(val name: String) extends scala.Serializable {
   def visitAll(start: V)(f: V => Unit): G = {
     var visited: Map[V, Boolean] = vertices.map { v => (v, false) }.toMap
     def visit(v: V)(f: V => Unit) {
-      visited += (start -> true)
-      f(start)
-      for (edge <- edges(start)) {
+      visited += (v -> true)
+      f(v)
+      for (edge <- edges(v)) {
         if (!visited.get(edge.vB).get) {
           f(edge.vB)
           visited += (edge.vB -> true)
