@@ -1,4 +1,4 @@
-package org.kndl.sock
+package org.kndl.sockem
 
 import java.io._
 import scala.pickling._

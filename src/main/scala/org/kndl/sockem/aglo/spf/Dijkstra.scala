@@ -1,6 +1,6 @@
-package org.kndl.sock.aglo.spf
+package org.kndl.sockem.aglo.spf
 
-import org.kndl.sock.{E, V, G}
+import org.kndl.sockem.{E, V, G}
 
 object Dijkstra {
   def apply(graph: G, source: V, target: V) = {

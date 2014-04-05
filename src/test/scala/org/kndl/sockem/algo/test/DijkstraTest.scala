@@ -1,8 +1,8 @@
-package org.kndl.sock.algo.test
+package org.kndl.sockem.algo.test
 
 import org.scalatest.{Matchers, FlatSpec}
-import org.kndl.sock.{E, V, G}
-import org.kndl.sock.aglo.spf.Dijkstra
+import org.kndl.sockem.{E, V, G}
+import org.kndl.sockem.aglo.spf.Dijkstra
 
 class DijkstraTest extends FlatSpec with Matchers {
 

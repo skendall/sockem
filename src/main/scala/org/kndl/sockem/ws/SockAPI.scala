@@ -1,9 +1,9 @@
-package org.kndl.sock.ws
+package org.kndl.sockem.ws
 
 import net.fwbrasil.zoot.core.Api
 import net.fwbrasil.zoot.core.request.RequestMethod
 import scala.concurrent.Future
-import org.kndl.sock.{E, V, G}
+import org.kndl.sockem.{E, V, G}
 
 trait SockAPI extends Api {
 

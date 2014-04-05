@@ -1,4 +1,4 @@
-package org.kndl.sock.ws
+package org.kndl.sockem.ws
 
 import com.twitter.finagle.builder.ServerBuilder
 import com.twitter.finagle.http.Http

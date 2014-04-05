@@ -1,7 +1,7 @@
-package org.kndl.sock.test
+package org.kndl.sockem.test
 
 import org.scalatest.{Matchers, FlatSpec}
-import org.kndl.sock.{G, E, V}
+import org.kndl.sockem.{G, E, V}
 
 class GraphTest extends FlatSpec with Matchers {
 

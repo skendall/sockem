@@ -1,4 +1,4 @@
-package org.kndl.sock
+package org.kndl.sockem
 
 case class E(val vA: V, val vB: V, val w: Double) extends scala.Serializable {
 
