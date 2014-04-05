@@ -1,8 +1,12 @@
-name := "sock"
+name := "sockem"
 
-version := "0.1"
+version := "0.3"
+
+organization := "org.kndl"
 
 scalaVersion := "2.10.3"
+
+publishTo := Some(Resolver.file("file",  new File( "maven" )) )
 
 resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
 
