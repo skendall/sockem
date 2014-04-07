@@ -8,19 +8,19 @@ import org.kndl.sockem.algo.Dijkstra
  * @param name
  */
 
-case class G(val name: String) extends scala.Serializable {
+case class Graph(val name: String) extends scala.Serializable {
 
   /**
    * Vertices
    */
 
-  private var vertexSet: Set[V] = Set()
+  private var vertexSet: Set[Vertex] = Set()
 
   /**
    * Edges
    */
 
-  private var edgeSet: Set[E] = Set()
+  private var edgeSet: Set[Edge] = Set()
 
   /**
    * Retrieve a single vertex from this graph.
@@ -29,7 +29,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def vertex(name: String):Option[V] = {
+  def vertex(name: String):Option[Vertex] = {
     val v = vertexSet.filter { v => v.name == name }.last
     Option(v)
   }
@@ -40,7 +40,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def vertices:Set[V] = vertexSet
+  def vertices:Set[Vertex] = vertexSet
 
   /**
    * All edges in this graph.
@@ -48,7 +48,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def edges:Set[E] = edgeSet
+  def edges:Set[Edge] = edgeSet
 
   /**
    * Retrieve an edge from this graph.
@@ -58,7 +58,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def edge(vA: V, vB: V):Option[E] = edgeSet.find { e => e.vA == vA && e.vB == vB }
+  def edge(vA: Vertex, vB: Vertex):Option[Edge] = edgeSet.find { e => e.vA == vA && e.vB == vB }
 
   /**
    * Retrieve all edges that the specified vertex is connected to.
@@ -67,7 +67,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def edges(v: V): Set[E] = edgeSet.filter { e => e.vA == v || e.vB == v }
+  def edges(v: Vertex): Set[Edge] = edgeSet.filter { e => e.vA == v || e.vB == v }
 
   /**
    * Adds a vertex to this graph.
@@ -76,7 +76,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def ++(v: V):G = {
+  def ++(v: Vertex):Graph = {
     vertexSet = vertexSet + v
     this
   }
@@ -91,7 +91,7 @@ case class G(val name: String) extends scala.Serializable {
    */
 
   def +|+(vA: String, vB: String, wA: Double, wB: Double) {
-    +|+ (V(vA),V(vB),wA,wB)
+    +|+ (Vertex(vA),Vertex(vB),wA,wB)
   }
 
   /**
@@ -103,7 +103,7 @@ case class G(val name: String) extends scala.Serializable {
    * @param wB
    */
 
-  def +|+(vA: V, vB: V, wA: Double, wB: Double) {
+  def +|+(vA: Vertex, vB: Vertex, wA: Double, wB: Double) {
     this +| (vA,vB,wA)
     this +| (vB,vA,wB)
   }
@@ -115,7 +115,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def +|(edges:Seq[E]):G = {
+  def +|(edges:Seq[Edge]):Graph = {
     for(e <- edges) this +| e
     this
   }
@@ -129,7 +129,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def +|(vA: String, vB: String, w: Double):G = {
+  def +|(vA: String, vB: String, w: Double):Graph = {
     val va = vertexSet.find { vertex => vertex.name == vA }
     val vb = vertexSet.find { vertex => vertex.name == vB }
     if(va.isDefined && vb.isDefined)
@@ -146,7 +146,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def +|(vA: V, vB: V, w: Double):G = {
+  def +|(vA: Vertex, vB: Vertex, w: Double):Graph = {
     this +| (vA -> (vB,w))
     this
   }
@@ -157,14 +157,14 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def +|(e: E):G = {
+  def +|(e: Edge):Graph = {
     if(!vertices.find{ vertex => vertex.name == e.vA || vertex.name == e.vB }.isDefined)
       null
 
     val edge = edgeSet.find{ edge => edge.vA == e.vA && edge.vB == e.vB }
     if(edge.isDefined) {
       edgeSet = edgeSet -- edge
-      edgeSet = edgeSet + new E(e.vA,e.vB,e.w)
+      edgeSet = edgeSet + new Edge(e.vA,e.vB,e.w)
     } else
       edgeSet = edgeSet + e
     this
@@ -177,7 +177,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def --(v: V):G = {
+  def --(v: Vertex):Graph = {
     vertexSet = vertexSet.filter { vertex => vertex.name == v.name }
     edgeSet = edgeSet.filter { edge => edge.vA == v || edge.vB == v }
     this
@@ -190,7 +190,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def -|(e: E):G = {
+  def -|(e: Edge):Graph = {
     edgeSet = edgeSet.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
     this
   }
@@ -204,7 +204,7 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def ~(v1: V, v2: V) = Dijkstra(this,v1,v2)
+  def ~(v1: Vertex, v2: Vertex) = Dijkstra(this,v1,v2)
 
   /**
    * Provides functionality to visit the nodes in the shortest path between
@@ -216,8 +216,8 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def traverseShortestPath(v1: V, v2: V)( f: V => Unit): Seq[V] = {
-    var path = Seq[V]()
+  def traverseShortestPath(v1: Vertex, v2: Vertex)( f: Vertex => Unit): Seq[Vertex] = {
+    var path = Seq[Vertex]()
     val (d,p) = Dijkstra(this,v1,v2)
     for(v <- p) {
       f(v)
@@ -234,9 +234,9 @@ case class G(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def visitAll(start: V)(f: V => Unit): G = {
-    var visited: Map[V, Boolean] = vertices.map { v => (v, false) }.toMap
-    def visit(v: V)(f: V => Unit) {
+  def visitAll(start: Vertex)(f: Vertex => Unit): Graph = {
+    var visited: Map[Vertex, Boolean] = vertices.map { v => (v, false) }.toMap
+    def visit(v: Vertex)(f: Vertex => Unit) {
       visited += (v -> true)
       f(v)
       for (edge <- edges(v)) {

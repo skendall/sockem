@@ -1,15 +1,15 @@
 package org.kndl.sockem.algo
 
-import org.kndl.sockem.{E, V, G}
+import org.kndl.sockem.{Edge, Vertex, Graph}
 
 object Dijkstra {
-  def apply(graph: G, source: V, target: V) = {
+  def apply(graph: Graph, source: Vertex, target: Vertex) = {
     val edges = graph.edges
     var dist = Map(source -> 0.0).withDefaultValue(Double.MaxValue)
-    var unvisiteds = edges.flatMap { case E(s, e, _) => Seq(s, e) }.toSet
-    var shortestHops = Map[V, V]()
+    var unvisiteds = edges.flatMap { case Edge(s, e, _) => Seq(s, e) }.toSet
+    var shortestHops = Map[Vertex, Vertex]()
 
-    def nodeEdges(n: V) = edges.filter(_.vA == n)
+    def nodeEdges(n: Vertex) = edges.filter(_.vA == n)
     def minU = unvisiteds.reduce((a, b) => if (dist(a) < dist(b)) a else b)
 
     while (unvisiteds.nonEmpty) {
@@ -21,7 +21,7 @@ object Dijkstra {
       }
     }
 
-    def trace(u: V, path: Seq[V] = Seq()): Seq[V] =
+    def trace(u: Vertex, path: Seq[Vertex] = Seq()): Seq[Vertex] =
       if (!shortestHops.contains(u)) u +: path
       else trace(shortestHops(u), u +: path)
 

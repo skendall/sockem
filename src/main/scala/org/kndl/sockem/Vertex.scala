@@ -1,6 +1,6 @@
 package org.kndl.sockem
 
-case class V(val name: String) extends scala.Serializable {
+case class Vertex(val name: String) extends scala.Serializable {
 
   private var metaData: Seq[VertexMetaData] = Seq()
 
@@ -16,22 +16,22 @@ case class V(val name: String) extends scala.Serializable {
 
   def isEnabled:Boolean = enabled
 
-  def enable:V = {
+  def enable:Vertex = {
     enabled = true
     this
   }
 
-  def disable:V =  {
+  def disable:Vertex =  {
     enabled = false
     this
   }
 
-  def ->(v: V,w: Double): E = {
-    E(this,v,w)
+  def ->(v: Vertex,w: Double): Edge = {
+    Edge(this,v,w)
   }
 
-  def <->(v: V, weightTo: Double, weightFrom: Double): Set[E] = {
-    Set(new E(this,v,weightTo), new E(v,this,weightFrom))
+  def <->(v: Vertex, weightTo: Double, weightFrom: Double): Set[Edge] = {
+    Set(new Edge(this,v,weightTo), new Edge(v,this,weightFrom))
   }
 }
 

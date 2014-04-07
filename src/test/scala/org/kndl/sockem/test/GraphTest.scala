@@ -1,7 +1,7 @@
 package org.kndl.sockem.test
 
 import org.scalatest.{Matchers, FlatSpec}
-import org.kndl.sockem.{G, E, V}
+import org.kndl.sockem.{Graph, Edge, Vertex}
 
 class GraphTest extends FlatSpec with Matchers {
 
@@ -10,27 +10,27 @@ class GraphTest extends FlatSpec with Matchers {
    */
 
   "A vertex" should "have a name" in {
-    val v = V("test")
+    val v = Vertex("test")
     assert(v.name == "test")
   }
 
   "An edge" should "have two vertices and a weight" in {
-    val e = E( V("v1"),  V("v2"), 10)
+    val e = Edge( Vertex("v1"),  Vertex("v2"), 10)
     assert(e.vA.name == "v1")
     assert(e.vB.name == "v2")
     assert(e.w == 10)
   }
 
   "A graph" should "have a name and empty vertices and edges on init" in {
-    val g = G("test")
+    val g = Graph("test")
     assert(g.name == "test")
     assert(g.vertices.isEmpty)
   }
 
   it should "allow addition of vertices" in {
-    val g = G("test")
-    val v1 = V("v1")
-    val v2 = V("v2")
+    val g = Graph("test")
+    val v1 = Vertex("v1")
+    val v2 = Vertex("v2")
     g ++ v1
     g ++ v2
     assert(g.vertices.size == 2)
@@ -39,14 +39,14 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   it should "allow addition of edges" in {
-    val g = G("test")
-    val v1 = V("v1")
-    val v2 = V("v2")
+    val g = Graph("test")
+    val v1 = Vertex("v1")
+    val v2 = Vertex("v2")
     g ++ v1
     g ++ v2
 
-    val e1 = E(v1, v2, 10)
-    val e2 = E(v2, v1, 5)
+    val e1 = Edge(v1, v2, 10)
+    val e2 = Edge(v2, v1, 5)
     g +| e1
     g +| e2
 
@@ -58,9 +58,9 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   it should "allow removal of edges" in {
-    val g = G("test")
-    val v1 = V("v1")
-    val v2 = V("v2")
+    val g = Graph("test")
+    val v1 = Vertex("v1")
+    val v2 = Vertex("v2")
     g ++ v1
     g ++ v2
 
@@ -80,9 +80,9 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   it should "allow modification of edges" in {
-    val g = G("test")
-    val v1 = V("v1")
-    val v2 = V("v2")
+    val g = Graph("test")
+    val v1 = Vertex("v1")
+    val v2 = Vertex("v2")
 
     g ++ v1
     g ++ v2
@@ -97,26 +97,26 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   it should "calculate the shortest path correctly" in {
-    val g = G("test")
-    val v1 = V("v1")
-    val v4 = V("v4")
+    val g = Graph("test")
+    val v1 = Vertex("v1")
+    val v4 = Vertex("v4")
 
-    g ++ v1 ++ V("v2") ++ V("v3") ++ v4 +| ("v1","v2",5) +| ("v1","v3",5) +| ("v3","v4",2) +| ("v2","v4",5)
+    g ++ v1 ++ Vertex("v2") ++ Vertex("v3") ++ v4 +| ("v1","v2",5) +| ("v1","v3",5) +| ("v3","v4",2) +| ("v2","v4",5)
 
     val (dist,path) = g ~ (v1,v4)
 
     assert(dist == 7)
     assert(path(0) == v1)
-    assert(path(1) == V("v3"))
-    assert(path(2) == V("v4"))
+    assert(path(1) == Vertex("v3"))
+    assert(path(2) == Vertex("v4"))
   }
 
   it should "visit all nodes and successfully interact with each node" in {
-    val g = G("test")
-    val v1 = V("v1")
-    val v4 = V("v4")
+    val g = Graph("test")
+    val v1 = Vertex("v1")
+    val v4 = Vertex("v4")
 
-    g ++ v1 ++ V("v2") ++ V("v3") ++ v4 +| ("v1","v2",5) +| ("v1","v3",5) +| ("v3","v4",2) +| ("v2","v4",5)
+    g ++ v1 ++ Vertex("v2") ++ Vertex("v3") ++ v4 +| ("v1","v2",5) +| ("v1","v3",5) +| ("v3","v4",2) +| ("v2","v4",5)
 
     val visited = g.visitAll(v1) { v => v.set("visited","true") }
 

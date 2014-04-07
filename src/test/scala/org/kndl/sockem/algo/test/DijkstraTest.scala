@@ -1,15 +1,15 @@
 package org.kndl.sockem.algo.test
 
 import org.scalatest.{Matchers, FlatSpec}
-import org.kndl.sockem.{E, V, G}
+import org.kndl.sockem.{Edge, Vertex, Graph}
 import org.kndl.sockem.algo.Dijkstra
 
 class DijkstraTest extends FlatSpec with Matchers {
 
-  implicit def str2V(name: String) = V(name)
+  implicit def str2V(name: String) = Vertex(name)
 
   "The Dijkstra.scala algorithm" should "accurately compute the shortest path" in {
-    val graph = G("test")
+    val graph = Graph("test")
     val from = "v1"
     val to = "v4"
 
@@ -17,9 +17,9 @@ class DijkstraTest extends FlatSpec with Matchers {
 
     val (distance,path) = Dijkstra(graph,from,to)
 
-    assert(path(0) == V("v1"))
-    assert(path(1) == V("v2"))
-    assert(path(2) == V("v4"))
+    assert(path(0) == Vertex("v1"))
+    assert(path(1) == Vertex("v2"))
+    assert(path(2) == Vertex("v4"))
   }
 
 }
