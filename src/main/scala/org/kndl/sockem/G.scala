@@ -6,10 +6,9 @@ import org.kndl.sockem.algo.Dijkstra
  * The base class for manipulating graph objects.
  *
  * @param name
- * @param undirected
  */
 
-case class G(val name: String, undirected: Boolean = false) extends scala.Serializable {
+case class G(val name: String) extends scala.Serializable {
 
   /**
    * Vertices
