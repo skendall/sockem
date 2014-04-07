@@ -1,4 +1,4 @@
-package org.kndl.sockem.aglo.spf
+package org.kndl.sockem.algo
 
 import org.kndl.sockem.{E, V, G}
 

@@ -1,6 +1,6 @@
 package org.kndl.sockem
 
-import org.kndl.sockem.aglo.spf.Dijkstra
+import org.kndl.sockem.algo.Dijkstra
 
 case class G(val name: String, undirected: Boolean = false) extends scala.Serializable {
 
