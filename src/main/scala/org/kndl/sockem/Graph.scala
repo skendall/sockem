@@ -29,10 +29,7 @@ case class Graph(val name: String) extends scala.Serializable {
    * @return
    */
 
-  def vertex(name: String):Option[Vertex] = {
-    val v = vertexSet.filter { v => v.name == name }.last
-    Option(v)
-  }
+  def vertex(name: String):Option[Vertex] = vertexSet.find { v => v.name == name }
 
   /**
    * All vertices for this graph.
