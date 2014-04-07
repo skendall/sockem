@@ -1,7 +1,5 @@
 package org.kndl.sockem
 
-case class VertexMetaData(key: String, value: Any, timestamp: Long)
-
 case class V(val name: String) extends scala.Serializable {
 
   private var metaData: Seq[VertexMetaData] = Seq()
