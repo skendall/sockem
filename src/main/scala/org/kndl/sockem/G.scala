@@ -59,11 +59,13 @@ case class G(val name: String, undirected: Boolean = false) extends scala.Serial
 
   def --(v: V):G = {
     vertexSet = vertexSet.filter { vertex => vertex.name == v.name }
+    edgeSet = edgeSet.filter { edge => edge.vA == v || edge.vB == v }
     this
   }
 
   def -|(e: E):G = {
     edgeSet = edgeSet.filter { edge => edge.vA == e.vA && edge.vB == e.vB }
+    vertexSet = vertexSet.filter { vertex => e.vA == vertex || e.vB == vertex }
     this
   }
 
