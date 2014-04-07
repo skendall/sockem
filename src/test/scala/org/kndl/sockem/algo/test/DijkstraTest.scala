@@ -2,7 +2,7 @@ package org.kndl.sockem.algo.test
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.kndl.sockem.{E, V, G}
-import org.kndl.sockem.aglo.spf.Dijkstra
+import org.kndl.sockem.algo.Dijkstra
 
 class DijkstraTest extends FlatSpec with Matchers {
 
