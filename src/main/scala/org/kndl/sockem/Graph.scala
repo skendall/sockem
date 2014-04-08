@@ -66,6 +66,8 @@ case class Graph(val name: String) extends scala.Serializable {
 
   def edges(v: Vertex): Set[Edge] = edgeSet.filter { e => e.vA == v || e.vB == v }
 
+  def isCyclic: Boolean = ???
+
   /**
    * Adds a vertex to this graph.
    *
